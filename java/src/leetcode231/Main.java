@@ -3,7 +3,7 @@ package leetcode231;
 public class Main{
     public static void main(String[] args)
     {
-        System.out.println(new Solution().isPowerOfTwo(16));
+        System.out.println(new Solution2().isPowerOfTwo(16));
     }
 }
 class Solution {
@@ -18,5 +18,11 @@ class Solution1 {
         //利用bitlow特性
         //即x&(-x)等于x的最低位表示的值，对于2的幂次，这个值一定是本身
         return n > 0 && (n & -n) == n;
+    }
+}
+
+class Solution2 {
+    public boolean isPowerOfTwo(int n) {
+        return n>0&&(n&(n-1))==0;
     }
 }
