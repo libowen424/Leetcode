@@ -42,4 +42,46 @@ public class Solution {
         }
         return ans;
     }
+
+    /**
+     * 回溯法
+     * 总体思路：
+     * 1. 在10个灯中选num个灯点亮，如果选择的灯所组成的时间已不合理（小时超过11，分钟超过59）就进行剪枝
+     * 2. 也就是从0到10先选一个灯亮，再选当前灯的后面的灯亮，再选后面的灯的后面的灯亮，一直到num个灯点满
+     */
+
+    //小时数组和分钟数组，用来方便计算当前时分
+    int[] hours = new int[]{1, 2, 4, 8, 0, 0, 0, 0, 0, 0};
+    int[] minutes = new int[]{0, 0, 0, 0, 1, 2, 4, 8, 16, 32};
+    List<String> res = new ArrayList<>();
+
+    public List<String> readBinaryWatch2(int num) {
+        backtrack(num, 0, 0, 0);
+        return res;
+    }
+
+    void backtrack(int num,int index,int hour,int minute)
+    {
+        if(hour > 11 || minute > 59 || 10-num<index)
+            return;
+        if(num == 0){
+            StringBuilder sb = new StringBuilder();
+            sb.append(hour).append(':');
+            if (minute < 10) {
+                sb.append('0');
+            }
+            sb.append(minute);
+            res.add(sb.toString());
+            return;
+        }
+        for(int i=index;i<10;i++)
+        {
+            //每轮循环
+            // 1. 减少一个需要点灯的数量
+            // 2. 从当前已点亮的灯后进行选取（前面的已经选过了）
+            // 3. 增加hour和minute
+            backtrack(num-1,i+1,hour+hours[i],minute+minutes[i]);
+        }
+    }
+
 }
